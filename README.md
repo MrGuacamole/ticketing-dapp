@@ -1,5 +1,5 @@
 # Decentralized Ticketing Application
-This is a decentralized ticketing application built using truffle on Ethereum.
+This is a decentralized ticketing application built using truffle for Ethereum.
 
 ## Getting Started
 
@@ -55,22 +55,26 @@ npm install -g ganche-cli
 ```
 npm install -g lite-server
 ```
+4. Clone repository, navigate to root project folder and install node modules
+```
+npm install
+```
+
 ## Deployment
 
-1. Clone the repository and navigate to the root project folder
-2. Start ganache by entering the following 
+1. Start ganache by entering the following 
 ```
 ganache-cli
 ```
-3. Compile the contracts
+2. Compile the contracts
 ```
 truffle compile
 ```
-4. Migrate the contracts onto ganache
+3. Migrate the contracts onto ganache
 ```
 truffle migrate
 ```
-5. Launch the development server
+4. Launch the development server
 ```
 npm run dev
 ```
