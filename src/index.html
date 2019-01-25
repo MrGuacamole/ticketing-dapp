@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ticketing-Dapp</title>
+    <meta name="description" content="Ticketing-Dapp">
+    <meta name="author" content="Sheldon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">   
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="row">
+            <!--Change Account -->
+            <div class="col-lg-5">
+                <div class="content-block hidden" id="change-account">
+                  <label>Address: </label>
+                  <input id="address" size="45" placeholder="Wallet Address"><span><button class="btn btn-primary left-margin" id="btn-change-address">Change Account</button></span>
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+            </div>
+
+            <!-- Address Balance -->
+             <div class="col-lg-5">
+                <div class="content-block">
+                    <p><a href="https://github.com/MrGuacamole/ticketing-dapp">Github Repository</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 content-block">
+               <button class="btn btn-primary" id="btn-toggle-testing">Toggle Testing</button>
+            </div>
+            <div class="col-lg-6">
+                <h1 class="center-text"> Ethereum Ticketing Dapp </h1>
+
+            </div>
+             <div class="col-lg-3">
+                
+            </div>
+        </div>
+
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1">
+
+      <!-- Ticket Info Section -->
+
+        <div class="row">
+        <div class="col-lg-4">
+          <div class="content-block">
+            <h2>Ticket Information</h2>
+            <h4>Ticket Name: <span id="ticket-name"></span> </h4>
+            <h4>Ticket Code: <span id="ticket-code"></span> </h4>
+            <br>
+            <br>
+            <!-- Purchase Tickets -->
+            <div class="breaker-false">
+              <label>Ticket Amount: </label>
+              <input type="number" id="ticket-amount-purchase" min="1" max="10" placeholder="1"><span><button class="btn btn-primary" id="btn-purchase-tickets">Purchase Tickets</button></span>
+              <br>
+              <br>
+            </div>
+            <div class="breaker-true">
+              <h2>Important Notice:</h2>
+              <p>
+                The breaker is currently active suggesting that the event has likely
+                 been canceled. Please navigate to the manage ticket section to refund your tickets.
+              </p>
+            </div>
+          </div>
+        </div>
+
+         <div class="col-lg-4 breaker-false">
+          <div class="content-block">
+             <h2>Tickets Remaining</h2>
+              <h3><span id="remaining-tickets">0</span></h3>
+              <h2>Ticket Price</h2>  
+              <h4><span id="ticket-price">0</span> wei</h4>
+          </div>
+        </div>
+
+        <!-- Owner Info Section -->
+        <div class="col-lg-4 scroll-box">
+          <div class="content-block">
+            <h2>Your Account Information</h2>
+            <p>Wallet Address: <span id="account-address"></span></p>
+            <p>Ether Balance: <span id="ether-balance"></span> wei</p>
+            <p>Ticket Balance: <span id="balance"></span></p>
+            <button class="btn btn-primary breaker-false" id="btn-manage-operators">Manage Operators</button>
+            <br>
+            <br>
+
+            <!-- Manage Operators Section -->
+              <div id="operators">
+                <div>
+                  <h2>Operator Status</h2>
+                  <label>Owner Address: </label>
+                  <input type="text" size="45" id="tb-owner-address-iafa" placeholder="0x0000000000000000000000">
+                  <br>
+                  <br>
+                  <label>Operator Address: </label>
+                  <input type="text" size="45" id="tb-operator-address-iafa" placeholder="0x0000000000000000000000"><span>
+                  <br>
+                  <br>
+                  <button class="btn btn-primary" id="btn-is-approved-for-all">Get Operator Status</button></span>
+                  <p><span id="operator-status"></span></p>
+                  <br>
+                </div>
+                 <div>
+                  <h2>Set Operator</h2>
+                  <p>(Operators will be able to manage all of your assets)</p>
+                  <label>Address:</label>
+                  <input type="text" size="45" id="tb-operator-address" placeholder="0x0000000000000000000000">
+                  <br>
+                  <br>
+                  <div class="flex-grid">
+                    <span class="item">True  <input class="item" type="radio" name="update-operator" value="true" id="update-operator-true"></span>
+                    <span class="item">False  <input class="item" type="radio" name="update-operator" value="false" id="update-operator-false" ></span>
+                    <button class="btn btn-primary" id="btn-set-approval-for-all">Update Operator</button></span>
+                    <p class="hidden" id="operator-update-msg">Operator Updated!</p>
+                  </div>
+                  <br>
+                  <br>
+                </div>
+              </div>
+
+              <div id="ticket-grid">
+                <div class="flex-grid">
+                  <h4 class="item">TicketID</h4>
+                  <h4 class="item">Status</h4>
+                  <h4 class="item">Manage Ticket</h4>
+              </div>
+            
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">Manage Ticket</h2>
+                    <h4>Ticket ID: <span id="modal-ticket-id"></span></h4>
+                  </div>
+                  <div class="modal-body">
+                    <!-- Update Ticket Status -->
+                    <div class="breaker-false">
+                      <div>
+                        <h3>Update Sale Status</h3>
+                        <div class="flex-grid">       
+                          <span class="item">True  <input class="item" type="radio" name="for-sale" value="true" id="for-sale-true"></span>
+                          <span class="item">False  <input class="item" type="radio" name="for-sale" value="false" id="for-sale-false" ></span>
+                          <button class="btn btn-primary" id="btn-for-sale">Update Sale Status</button></span>
+                          <p class="hidden" id="for-sale-msg">Status Updated!</p>
+                        </div>
+                      </div>
+                      <!-- Set Approved Address -->
+                      <div>
+                        <h3>Approve Address</h3>
+                        <p>(The approved address will be able to mangage the ticket on your behalf)</p>
+                        <br>
+                        <label>Approval Address: </label>
+                        <input type="text" size="45" id="tb-approve-address" placeholder="0x0000000000000000000000">
+                        <br>
+                        <br>
+                        <button class="btn btn-primary" id="btn-approve">Approve Address</button>
+                        <p class="hidden" id="approve-msg"></p>
+                        <br>
+                        <br>
+                      </div>
+                      <div>
+                        <h3>Approval Status</h3>
+                        <p id="tb-approved-result"></p>
+                      </div>
+                    </div>
+                      <div class="breaker-true">
+                        <button class="btn btn-primary" id="btn-refund">Refund Ticket</button>
+                      </div>
+                  </div>
+                 
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+          
+    <div class="row breaker-false">
+      <!-- Purchase tickets from Address -->
+      <div class="col-lg-4">
+        <div class="content-block">
+          <h2>Purchase tickets from Address</h2>
+          <label>Owner's Address </label>
+          <input type="text" size="45" id="tb-owners-address-ptf" placeholder="0x0000000000000000000000">
+          <br>
+          <br>
+          <label>Ticket ID: </label>
+          <input type="text" id="tb-ticket-id-ptf" placeholder="1">
+          <br>
+          <br>
+          <button class="btn btn-primary" id="btn-ptf">Purchase Tickets</button>
+        </div>
+      </div>
+      <!-- Transfer tickets from Address -->
+      <div class="col-lg-4">
+        <div class="content-block">
+          <h2>Transfer Tickets from Address</h2>
+          <label>Owner's Address </label>
+          <input type="text" size="45" id="tb-from-address-ttf" placeholder="0x0000000000000000000000">
+          <br>
+          <br>
+          <label>Recipient's Address </label>
+          <input type="text" size="45" id="tb-to-address-ttf" placeholder="0x0000000000000000000000">
+          <br>
+          <br>
+          <label>Ticket ID: </label>
+          <input type="text" id="tb-ticket-id-ttf" placeholder="1">
+          <br>
+          <br>
+          <button class="btn btn-primary" id="btn-ttf">Transfer Tickets</button>
+        </div>
+      </div>
+    </div> 
+
+    <div class="row breaker-false">
+      <div class="col-lg-4 content-block">
+        <h2>Lookup Ticket Info</h2>
+        <label>TicketID:</label>
+          <input type="number" min="1" id="tb-owner-of" placeholder="1">
+          <button class="btn btn-primary" id="btn-ticket-info">Lookup Ticket Owner</button>
+          <br>
+          <br>
+        <p class="hidden">Owner is: <span id="owner-of-address"></span></p>
+        <p class="hidden">Ticket Status is: <span id="ticket-status"></span></p>
+
+      </div>
+    </div>
+    
+    <!-- Admin Area -->
+    <div id="admin">
+      <h1 class="center-text">Administrator Area</h1>
+      <div class="row breaker-false">
+        <!-- Add Tickets -->
+        <div class="col-lg-4 content-block">
+          <h2>Add Tickets</h2>
+          <label>Ticket Amount: </label>
+            <input type="number" min="1" max="10000" id="tb-add-tickets" placeholder="1">
+            <button class="btn btn-primary" id="btn-add-tickets">Add Tickets</button>
+            <p class="hidden" id="add-tickets-msg"></p>
+            <br>
+            <br>
+        </div>
+         <!-- Contract Balance -->
+        <div class="col-lg-4">
+            <div class="content-block">
+               <h2>Contract Balance</h2>
+                <h4><span id="contract-balance">0</span> wei</h4>
+                <button class="btn btn-primary" id="btn-withdraw-balance">Withdraw Balance</button>
+            </div>
+          </div>
+        <!-- Update Ticket Price -->
+        <div class="col-lg-4 content-block">
+          <h2>Update Ticket Price</h2>
+          <label>Ticket Price: </label>
+            <input type="number" min="1" max="1000000000000000000" id="tb-ticket-price" placeholder="1000000">
+            <button class="btn btn-primary" id="btn-update-ticket-price">Update Price</button>
+            <br>
+            <br>
+        </div>
+      </div>
+
+      <div class="row breaker-false">
+        <!-- Burn Tickets -->
+        <div class="col-lg-4 content-block">
+          <h2>Burn Tickets</h2>
+          <label>Ticket Amount: </label>
+            <input type="number" min="1" max="10000" id="tb-burn-tickets" placeholder="1">
+            <button class="btn btn-primary" id="btn-burn-tickets">Burn Tickets</button>
+            <br>
+            <br>
+        </div>
+        <!-- Burn Tickets From -->
+        <div class="col-lg-4 content-block">
+          <h2>Burn Tickets From</h2>
+          <label>Ticket ID: </label>
+          <input type="number" min="1" id="tb-ticket-burn-id" placeholder="1">
+          <br>
+          <br>
+          <label>Owner Address: </label>
+          <input type="text" size="45" id="tb-burn-address" placeholder="0x0000000000000000000000">
+          <br>
+          <br>
+          <button class="btn btn-primary" id="btn-burn-tickets-from">Burn Tickets From</button>
+          <br>
+          <br>
+        </div>
+        <!-- Redeem Ticket -->
+        <div class="content-block">
+              <h2>Redeem Ticket</h2>
+              <label>Ticket ID: </label>
+              <input type="number" min="1" id="tb-redeem-ticket" placeholder="1">
+              <button class="btn btn-primary" id="btn-redeem-ticket">Redeem</button>
+            </div>
+          </div>
+      </div>
+      <div class="row" id="breaker">
+        <div class="col-lg-4 content-block">
+          <h2>Breaker Status</h2>
+          <div class="flex-grid">
+            <span class="item">True  <input class="item" type="radio" name="activate-breaker" value="true" id="breaker-true"></span>
+            <span class="item">False  <input class="item" type="radio" name="activate-breaker" value="false" id="breaker-false" ></span>
+            <button class="btn btn-primary" id="btn-activate-breaker">Update Breaker</button></span>
+          </div>
+          <p id="breaker-status"></p>
+        </div>
+      </div>
+  </div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

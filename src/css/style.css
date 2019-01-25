@@ -1,0 +1,51 @@
+.wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: auto;
+  height: auto;
+  min-width:360px;
+  overflow: hidden;
+}
+
+.center-text{
+  text-align: center;
+}
+
+.right-text{
+  text-align: right;
+}
+
+.content-block{
+	padding: 15px 10px 10px 5px;
+	text-align: center;
+}
+
+body{
+  background: #e6f3ff; /* For browsers that do not support gradients */
+  background: linear-gradient(#cce7ff, #e6f3ff, #f0f8ff); /* Standard syntax (must be last) */
+  min-height:100%;
+   margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+html{
+  height: 100%;
+}
+
+.left-margin{
+	margin-left: 10px;
+}
+
+.flex-grid{
+  display: flex;
+}
+
+
+.item{
+  flex: 1;
+}
+
+.scroll-box{
+  overflow: scroll;
+}
