@@ -1,9 +1,9 @@
 # Decentralized Ticketing Application
-This is a decentralized ticketing application built using truffle for Ethereum.
+This is a decentralized ticketing application built using truffle for Ethereum. Users can purchase tickets, manage them and transfer them between accounts. Tickets can be purchased from the vendor or from other users. The owner also has specific administrative abilities.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 ### Prerequisites
 
@@ -13,14 +13,13 @@ Update packages list
 ```
 sudo apt update
 ```
-
 Install node.js via apt package manager
 ```
-sudo apt install nodejs npm
+sudo apt install nodejs
 ```
 Verify installation
 ```
-nodejs --version
+node -v
 ```
 Install npm
 ```
@@ -28,20 +27,21 @@ sudo apt install npm
 ```
 Verify installation
 ```
-npm --version
+npm -v
 ```
 #### Node.js and npm - Windows
 Download the Windows installer from [here](https://nodejs.org/en/download/) and follow the instructions.
 
-Verify node
+In the windows terminal verify node
 ```
 node -v
 ```
-Verify npm
+Then verify npm
 ```
 npm -v
 ```
 ### Installing
+#### Note Linux installation may need to be prefixed with 'sudo'
 
 1. Install truffle globally
 ```
@@ -49,24 +49,25 @@ npm install -g truffle
 ```
 2. Install ganache globally
 ```
-npm install -g ganche-cli
+npm install -g ganache-cli
 ```
-3. Install lite-server (global install optional)
+3. Clone repository
 ```
-npm install -g lite-server
+git clone https://github.com/MrGuacamole/ticketing-dapp.git
 ```
-4. Clone repository, navigate to root project folder and install node modules
+4. Navigate to root project folder and install node modules
 ```
 npm install
 ```
 
 ## Deployment
+#### Note: compiling and migrating on Linux may need to be prefixed with 'sudo' 
 
 1. Start ganache by entering the following 
 ```
 ganache-cli
 ```
-2. Compile the contracts
+2. Compile the contracts in a new terminal
 ```
 truffle compile
 ```
