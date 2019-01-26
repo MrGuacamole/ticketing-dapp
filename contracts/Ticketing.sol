@@ -609,10 +609,16 @@ contract Ticketing is ERC721, Owned{
         return address(this).balance;
     }
 
-    /** @dev withdraw funds from the contract and transfer it to the owner.
+    /** @dev Withdraw funds from the contract and transfer it to the owner.
       */
     function withdrawBalance() onlyOwner external {
         msg.sender.transfer(address(this).balance);
+    }
+    
+    /** @dev Remove the contract from the blockchain and transfer funds to the owner.
+      */
+    function kill() onlyOwner external {
+        selfdestruct(msg.sender);
     }
     
     /// @notice Set or reaffirm the approved address for an NFT
