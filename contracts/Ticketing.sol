@@ -574,6 +574,8 @@ contract Ticketing is ERC721, Owned{
         require(validTicket[_tokenId] == true);
         // refund amount
         uint256 amount = tickets[_tokenId].originalPrice;
+        //reset original price to prevent re-entrancy attacks
+        tickets[_tokenId].originalPrice = 0;
         // update variables
         ticketOwners[_tokenId] = address(0);
         validTicket[_tokenId] = false;
