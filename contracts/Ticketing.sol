@@ -247,8 +247,6 @@ contract Ticketing is ERC721, Owned{
     
     enum Status {redeemed, forSale, notForSale}
     
-    
-    // implement these two
     modifier breakerActive { assert(stopExecution == true); _;}
     
     modifier breakerInactive { assert(stopExecution == false); _;}
@@ -471,7 +469,6 @@ contract Ticketing is ERC721, Owned{
         require (ticketOwners[_tokenId] != address(0));
         return ticketOwners[_tokenId];
     }
-    
     
     /// @notice Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE
     ///  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE
