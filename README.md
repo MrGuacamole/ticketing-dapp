@@ -41,7 +41,7 @@ Then verify npm
 npm -v
 ```
 ### Installing
-#### Note Linux installation may need to be prefixed with 'sudo'
+#### Note: Linux installation may need to be prefixed with 'sudo'
 
 1. Install truffle globally
 ```
@@ -61,7 +61,7 @@ npm install
 ```
 
 ## Deployment
-#### Note: compiling and migrating on Linux may need to be prefixed with 'sudo' 
+#### Note: compiling and migrating contracts on Linux may need to be prefixed with 'sudo' 
 
 1. Start ganache by entering the following 
 ```
