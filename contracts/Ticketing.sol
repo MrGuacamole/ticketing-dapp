@@ -211,7 +211,7 @@ contract Ticketing is ERC721, Owned{
     uint256 price;
     
     // user total tickets purchased
-    mapping (address => uint256) ticketsPurchased;
+    mapping (address => uint256) ticketsReceived;
     
     // user ticket balance
     mapping (address => uint256) ticketBalance;
@@ -274,10 +274,10 @@ contract Ticketing is ERC721, Owned{
             validTicket[ticketId] = true;
             
              // add ticket index
-            uint256 index = ticketsPurchased[_owner];
+            uint256 index = ticketsReceived[_owner];
             ownerTickets[_owner][index] = ticketId;
            
-            ticketsPurchased[_owner] = ticketsPurchased[_owner].add(1);
+            ticketsReceived[_owner] = ticketsReceived[_owner].add(1);
             
             //add ticket struct
             tickets[ticketId] = Ticket({ id: ticketId, name: name, code: code, status: Status.notForSale, purchasePrice: _price, originalPrice: _price});
@@ -305,11 +305,11 @@ contract Ticketing is ERC721, Owned{
         require(totalPayment <= msg.value);
         
         // minimise generation load
-        require(_amount <= 10);
+        require(_amount <= 5);
         // check enough tickets remaining 
         require(ticketsRemaining >= _amount);
         // check total purchase limit hasn't been reached
-        require((ticketsPurchased[msg.sender] + _amount) <= 20);
+        require((ticketsReceived[msg.sender] + _amount) <= 20);
    
         generateTicket(_amount, msg.sender, currentPrice);
         ticketBalance[msg.sender] = ticketBalance[msg.sender].add(_amount);
@@ -481,7 +481,7 @@ contract Ticketing is ERC721, Owned{
     /// @param _to The new owner
     /// @param _tokenId The NFT to transfer
     function transferFrom(address _from, address _to, uint256 _tokenId) breakerInactive external payable{
-        // this is not payable and handles transferring of tickets without payment and doesn't increment tickets purchased
+        // this handles transferring of tickets without payment 
         
         // check valid request
          if (msg.sender != _from && approvedAddress[_from][_tokenId] != msg.sender){
@@ -493,6 +493,7 @@ contract Ticketing is ERC721, Owned{
         require(validTicket[_tokenId] == true);
         // check that from address holds the ticket
         require(ticketOwners[_tokenId] == _from);
+        require((ticketsReceived[_to] + 1) <= 20);
         // update ticket holder
         ticketOwners[_tokenId] = _to;
         // update balances
@@ -503,8 +504,11 @@ contract Ticketing is ERC721, Owned{
         tickets[_tokenId].status = Status.notForSale;
        
         // add ticket index
-        uint256 index = ticketsPurchased[_to];
+        uint256 index = ticketsReceived[_to];
         ownerTickets[_to][index] = _tokenId;
+           
+        ticketsReceived[_to] = ticketsReceived[_to].add(1);
+
         removeTicketFromIndex(_from, _tokenId);
         
         // reset approved address
@@ -527,7 +531,7 @@ contract Ticketing is ERC721, Owned{
         // check valid ticket
         require(validTicket[_tokenId] == true);
         //check buyer hasn't reached ticket purchase limit;
-        require((ticketsPurchased[msg.sender] + 1) <= 20);
+        require((ticketsReceived[msg.sender] + 1) <= 20);
         // check owner owns ticket
         require(ticketOwners[_tokenId] == _owner);
         // ticket is forSale
@@ -548,10 +552,10 @@ contract Ticketing is ERC721, Owned{
         assert((refundAmount + currentPrice) == msg.value);
        
         // add ticket index
-        uint256 index = ticketsPurchased[msg.sender];
+        uint256 index = ticketsReceived[msg.sender];
         ownerTickets[msg.sender][index] = _tokenId;
         // update tickets purchased
-        ticketsPurchased[msg.sender] = ticketsPurchased[msg.sender].add(1);
+        ticketsReceived[msg.sender] = ticketsReceived[msg.sender].add(1);
         // remove ticket from owner index
         removeTicketFromIndex(_owner, _tokenId);
         // reset approved address
@@ -591,7 +595,7 @@ contract Ticketing is ERC721, Owned{
       * @param _tokenId the id of the ticket.
       */ 
     function removeTicketFromIndex(address _owner, uint256 _tokenId) internal{
-        uint256 p = ticketsPurchased[_owner];
+        uint256 p = ticketsReceived[_owner];
         for (uint256 i = 0; i < p + 1; i++){
             if (ownerTickets[_owner][i] == _tokenId){
                 delete ownerTickets[_owner][i];
