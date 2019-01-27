@@ -234,7 +234,7 @@ contract Ticketing is ERC721, Owned{
     // array of ticket ids for each user
     mapping(address => mapping(uint256 => uint256)) private ownerTickets;
     
-    mapping (uint256 => Ticket) public tickets;
+    mapping (uint256 => Ticket) private tickets;
     
      struct Ticket {
         uint id;
