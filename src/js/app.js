@@ -80,6 +80,7 @@ App = {
   bindEvents: function() {
     $(document).on('click', '#btn-manage-operators', App.manageOperators);
     $(document).on('click', '#btn-purchase-tickets', App.purchaseTickets);
+    $(document).on('click', '#btn-ptf', App.purchaseTicketsFrom);
     $(document).on('click', '#btn-ticket-info', App.ticketInfo);
     $(document).on('click', '#btn-ttf', App.transferFrom);
     $(document).on('click', '#btn-is-approved-for-all', App.isApprovedForAll);
@@ -97,6 +98,7 @@ App = {
     $(document).on('click', '#btn-change-address', App.changeAccount);
     $(document).on('click', '#btn-toggle-testing', App.toggleTesting);
     $(document).on('click', '#btn-refund', App.refundTicket);
+    $(document).on('click', '#btn-redeem', App.redeemTicket);
   },
 
   updateUI: function() {
@@ -223,6 +225,33 @@ App = {
       console.log(err.message);
     });
     }, 1000);
+  },
+
+  purchaseTicketsFrom: function(){
+    var ticketingInstance;
+
+    App.contracts.Ticketing.deployed().then(function(instance) {
+      ticketingInstance = instance;
+
+     return ticketingInstance.ticketPrice.call(); 
+    }).then(function(price) {
+      ticketPrice = price.toNumber();
+    }).catch(function(err) {
+      console.log(err.message);
+    });
+
+    App.contracts.Ticketing.deployed().then(function(instance) {
+
+      var ticketPrice = parseInt($("#ticket-price").text());
+      var owner = $("#tb-owners-address-ptf").val();
+      var ticketId = $("#tb-ticket-id-ptf").val();
+
+     return ticketingInstance.purchaseTicketsFrom(owner, ticketId, {from: App.account, value: ticketPrice}); 
+    }).then(function(price) {
+      App.updateUI();
+    }).catch(function(err) {
+      console.log(err.message);
+    });
   },
 
   transferFrom: function(){
@@ -491,6 +520,10 @@ App = {
     var ticketId = $("#tb-owner-of").val();
     var _status;
 
+    $("#owner-of-address").parent().removeClass("hidden");
+    $("#ticket-status").parent().removeClass("hidden");      
+
+
     App.contracts.Ticketing.deployed().then(function(instance) {
       ticketingInstance = instance;
 
@@ -498,10 +531,10 @@ App = {
       
       return ticketingInstance.ownerOf.call(ticketId); 
     }).then(function(owner) {
-      $("#owner-of-address").parent().removeClass("hidden");
       $("#owner-of-address").addClass("visible");
       $("#owner-of-address").text(owner);
     }).catch(function(err) {
+      $("#owner-of-address").text("");
       console.log(err.message);
     });
 
@@ -520,10 +553,10 @@ App = {
       else {
         _status = "Not For Sale";
       }
-      $("#ticket-status").parent().removeClass("hidden");      
       $("#ticket-status").text(_status);
 
     }).catch(function(err) {
+      $("#ticket-status").text("invalid");
       console.log(err.message);
     });
 
