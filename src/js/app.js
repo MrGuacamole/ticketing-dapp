@@ -246,7 +246,7 @@ App = {
       var owner = $("#tb-owners-address-ptf").val();
       var ticketId = $("#tb-ticket-id-ptf").val();
 
-     return ticketingInstance.purchaseTicketsFrom(owner, ticketId, {from: App.account, value: ticketPrice}); 
+     return ticketingInstance.purchaseTicketsFrom(owner, ticketId, {from: App.account, value: ticketPrice, gas: 1500000}); 
     }).then(function(price) {
       App.updateUI();
     }).catch(function(err) {
