@@ -11,4 +11,4 @@ integers from occuring.
 
 ## Denial of Service with Block Gas Limit
 My contract contains a couple of for loops. One for generating tickets and the other for removing a ticket from the list of owner tickets. 
-Both of these loops are bounded via the amount of tickets an individual account can purchase which is 20. This prevents the contract from reaching the block gas limit and producing a denial of service.
+Both of these loops are bounded via the amount of tickets an individual account can receive which is 20. This prevents the contract from reaching the block gas limit and producing a denial of service.
